@@ -49,8 +49,31 @@ x_resampled, y_resampled = sm.fit_resample(X_train, Y_train)
 print(y_resampled.value_counts())
 
 from sklearn.linear_model import LogisticRegression
+
 lr = LogisticRegression(penalty=None, max_iter=1000)
 lr.fit(x_resampled, y_resampled)
 y_test_pred1 = lr.predict(X_test)
+y_test_prob1 = lr.predict_proba(X_test)[:, 1]
 lr.fit(X_train, Y_train)
 y_test_pred2 = lr.predict(X_test)
+y_test_prob2 = lr.predict_proba(X_test)[:, 1]
+
+# 학습된 모형 평가
+from sklearn.metrics import classification_report
+
+print(classification_report(Y_test, y_test_pred1))
+print(classification_report(Y_test, y_test_pred2))
+
+# Threshold 를 조정하면, 똑같은 모델로도 더 좋은 성능을 낼 수 있다.
+from sklearn.metrics import roc_curve, auc
+fpr, tpr, threshold = roc_curve(Y_test, y_test_prob1) #원래는 Train을 넣어야 함
+
+dic = {'0_recall': 1-fpr,
+      '1_recall': tpr,
+      'thresh' : threshold}
+roc = pd.DataFrame(dic)
+print(dic)
+
+import matplotlib.pyplot as plt
+plt.plot(fpr, tpr, ls = '--', c = 'red')
+plt.show()
