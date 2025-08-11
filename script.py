@@ -103,10 +103,3 @@ from imblearn.over_sampling import SMOTE, BorderlineSMOTE
 sm = SMOTE(k_neighbors=5, random_state=0)  # 몇개의 데이터를 가지고, 합성 데이터를 만들것인지?
 x_resampled, y_resampled = sm.fit_resample(x, y)
 y_resampled.value_counts()
-
-# 실습 (exercise 01)
-# 종속변수 : survived
-# 독립변수 : sex(문자, 범주), age(연속, 결측), fare(연속), class(문자, 범주)
-# => Hold-Out 으로 train:test = 7:3
-# => 결측, 문자 전처리
-# => 오버 샘플링 (SMOTE)
