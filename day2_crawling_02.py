@@ -70,23 +70,17 @@ import numpy as np
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.ie.webdriver import WebDriver
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
 driver = webdriver.Chrome() #(service = Service(ChromeDriverManager().install())
 driver.get('http://info.nec.go.kr/main/showDocument.xhtml?electionId=0000000000&topMenuId=VC&secondMenuId=VCCP09')
 driver.find_element(By.ID, 'electionType1').click()
-element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, 'electionName')))
-driver.find_element(By.ID, 'electionName').send_keys(' 제19대')
-driver.find_element(By.ID, 'electionName').click()
-
+element = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'electionName')))
+driver.find_element(By.ID, 'electionName').send_keys('제19대')
 
 WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'electionCode')))
-
 driver.find_element(By.ID, 'electionCode').send_keys('대통령선거')
+# driver.find_element(By.ID, 'electionCode').click()
 
 sido_list_raw = driver.find_element(By.XPATH, '''//*[@id="cityCode"]''')
 sido_list = sido_list_raw.find_elements(By.TAG_NAME, 'option')
@@ -124,7 +118,7 @@ election_result_raw= {'광역시도' : [], '시군': [], '전체': [],
 
 for each_sido in sido_names_values:
     move_sido(each_sido)
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located(By.TAG_NAME, 'table'))
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'table')))
     table = driver.find_element(By.TAG_NAME, 'table')
     rows = table.find_elements(By.TAG_NAME, 'tr')
     append_data(rows, each_sido, election_result_raw)
