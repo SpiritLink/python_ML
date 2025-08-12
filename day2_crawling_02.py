@@ -67,4 +67,13 @@ data = auto_convert_df_types(
 
 data.info()
 
+
+
+import selenium
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from webdriver_manager.chrome import ChromeDriverManager
+driver = webdriver.Chrome() #(service = Service(ChromeDriverManager().install())
+driver.get('https://www.naver.com')
+
 a = 4
