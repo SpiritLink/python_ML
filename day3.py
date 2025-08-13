@@ -186,3 +186,20 @@ print(classification_report(y_test, y_test_pred))
 from lightgbm import LGBMClassifier
 LGBMClassifier(boosting_type= 'gbdt')
 
+# 실습
+# 1) 데이터 구축
+# 1. 데이터 불러오기 (dataset.xlsx) 변수 없는 부분 삭제
+# 2. 20130601 ~ 20130831 시간당 기상 자료 불러오기
+# 3. dataset과 기상자료(부산) 결합 (변수추가방법)
+# pandas.merge(df_left, df_right, how = ,left_on, right_on)
+# 4. 최종 데이터셋: 20130601~20130831 시간당 자료
+# => 변수: 날짜 및 시간, 사고여부(1:사고, 0: 미사고)
+# 날씨변수
+
+# 2) 전처리
+# 기상자료부분 => 실수 및 정수, 날짜 유형
+# 문자형 => 삭제
+# 결측자료 => KNN imputation 이용(train, test 진행 후)
+
+# 3) hold-out + kfold => 파라미터 튜닝, 검증자료결과 확
+# 모델 : random forest
